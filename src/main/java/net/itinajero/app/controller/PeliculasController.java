@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.itinajero.app.model.Pelicula;
 import net.itinajero.app.service.IPeliculasService;
+import net.itinajero.app.util.Utileria;
 
 @Controller
 @RequestMapping("/peliculas")
@@ -50,6 +51,15 @@ public class PeliculasController
 		return "peliculas/formPelicula";
 	}
 	
+	/**
+	 * Metodo ejecutado al hacer POST cuando se guarda una Pelicula
+	 * @param pelicula
+	 * @param result
+	 * @param attributes
+	 * @param multipart
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/save")
 	public String guardar(Pelicula pelicula, BindingResult result, RedirectAttributes attributes,
 							@RequestParam("archivoImagen") MultipartFile multipart, HttpServletRequest request) //param4: se pone el nombre del input file que suibira el archivo (representa este parametro un archivo Binario | param5: devuelve la ruta absoluta dle directorio donde se va guardar el archivo
@@ -69,7 +79,7 @@ public class PeliculasController
 		{
 			if(!multipart.isEmpty())
 			{
-				String nombreImagen = guardarImagen(multipart, request);
+				String nombreImagen = Utileria.guardarImagen(multipart, request);
 				pelicula.setImagen(nombreImagen);
 				System.out.println("Nombre imagen: " + nombreImagen);
 			}
@@ -89,40 +99,7 @@ public class PeliculasController
 	}
 	
 	
-	private String guardarImagen(MultipartFile multipart, HttpServletRequest request) {
-		//Obtenemos el nombre original del archivo
-		String nombreOriginal_Path = multipart.getOriginalFilename();
-		System.out.println("nombreOriginal_Path:" + nombreOriginal_Path);
-		String nombreOriginal = multipart.getName();
-		System.out.println("nombreOriginal: " + nombreOriginal);
-		
-		String fileName = multipart.getOriginalFilename();
-		int startIndex = fileName.replaceAll("\\\\", "/").lastIndexOf("/");
-		fileName = fileName.substring(startIndex + 1);
-		System.out.println("fileName:" + fileName);
-		
-		//Obtenemos la ruta ABSOLUTA del directorio img
-		//apache-tomcat/webapps/cineapp/resources/img/
-		String rutaFinal = request.getServletContext().getRealPath("/resources/img/");
-		
-		try 
-		{
-			//Formamos el nombre del archivo para guardarlo en el disco duro
-			System.out.println("rutaFinal: " + rutaFinal + " fileName: " + fileName);
-			File imageFile = new File(rutaFinal + fileName);
-		
-			
-			//Aqui se guarda fiusicamente el archivo en el disco duro
-			multipart.transferTo(imageFile);
-			
-			return fileName;
-		} 
-		catch (IOException e) 
-		{
-			System.out.println("Error " + e.getMessage());
-			return null;
-		}	
-	}
+	
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder)

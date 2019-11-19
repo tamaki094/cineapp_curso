@@ -1,11 +1,17 @@
 package net.itinajero.app.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 
@@ -39,6 +45,69 @@ public class Utileria
 		}
 		return nextDays;
 		
+	}
+	
+	/**
+	 * Metodo para guardar imagen
+	 * @param multipart Imagen MultiPart recibida desde el formulario
+	 * @param request 
+	 * @return nombre del archivo guardado
+	 */
+	public static String guardarImagen(MultipartFile multipart, HttpServletRequest request)
+	{
+		//Obtenemos el nombre original del archivo
+		String nombreOriginal_Path = multipart.getOriginalFilename();
+		System.out.println("nombreOriginal_Path:" + nombreOriginal_Path);
+		String nombreOriginal = multipart.getName();
+		System.out.println("nombreOriginal: " + nombreOriginal);
+		
+		String fileName = multipart.getOriginalFilename();
+		int startIndex = fileName.replaceAll("\\\\", "/").lastIndexOf("/");
+		fileName = fileName.substring(startIndex + 1);
+		System.out.println("fileName:" + fileName);
+		fileName = fileName.replace(" ", "");
+		String nombreFinal = randomAlphaNumeric(8) + fileName;
+		
+		//Obtenemos la ruta ABSOLUTA del directorio img
+		//apache-tomcat/webapps/cineapp/resources/img/
+		String rutaFinal = request.getServletContext().getRealPath("/resources/img/");
+		
+		try 
+		{
+			//Formamos el nombre del archivo para guardarlo en el disco duro			
+			File imageFile = new File(rutaFinal + nombreFinal);
+			System.out.println("imageFile: " + imageFile.getAbsolutePath());
+		
+			
+			//Aqui se guarda fiusicamente el archivo en el disco duro
+			multipart.transferTo(imageFile);
+			
+			return nombreFinal;
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("Error " + e.getMessage());
+			return null;
+		}	
+	}
+	
+	/**
+	 * Metodo que genera string aleatorio
+	 * @param count Longitud del string que devolvera
+	 * @return
+	 */
+	public static String randomAlphaNumeric(int count)
+	{
+		String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		StringBuilder builder = new StringBuilder();
+		
+		while (count-- != 0) 
+		{
+			int character = (int)(Math.random() * CARACTERES.length());
+			builder.append(CARACTERES.charAt(character));
+		}
+		
+		return builder.toString();
 	}
 	
 	
