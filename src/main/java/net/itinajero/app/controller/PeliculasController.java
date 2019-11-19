@@ -91,22 +91,31 @@ public class PeliculasController
 	
 	private String guardarImagen(MultipartFile multipart, HttpServletRequest request) {
 		//Obtenemos el nombre original del archivo
-		String nombreOriginal = multipart.getOriginalFilename();
+		String nombreOriginal_Path = multipart.getOriginalFilename();
+		System.out.println("nombreOriginal_Path:" + nombreOriginal_Path);
+		String nombreOriginal = multipart.getName();
 		System.out.println("nombreOriginal: " + nombreOriginal);
+		
+		String fileName = multipart.getOriginalFilename();
+		int startIndex = fileName.replaceAll("\\\\", "/").lastIndexOf("/");
+		fileName = fileName.substring(startIndex + 1);
+		System.out.println("fileName:" + fileName);
 		
 		//Obtenemos la ruta ABSOLUTA del directorio img
 		//apache-tomcat/webapps/cineapp/resources/img/
-		String rutaFinal = request.getServletContext().getRealPath("/resources/img");
+		String rutaFinal = request.getServletContext().getRealPath("/resources/img/");
 		
 		try 
 		{
 			//Formamos el nombre del archivo para guardarlo en el disco duro
-			File imageFile = new File(rutaFinal + nombreOriginal);
+			System.out.println("rutaFinal: " + rutaFinal + " fileName: " + fileName);
+			File imageFile = new File(rutaFinal + fileName);
+		
 			
 			//Aqui se guarda fiusicamente el archivo en el disco duro
 			multipart.transferTo(imageFile);
 			
-			return nombreOriginal;
+			return fileName;
 		} 
 		catch (IOException e) 
 		{
