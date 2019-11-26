@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.itinajero.app.model.Pelicula;
+
 import net.itinajero.app.service.IPeliculasService;
 import net.itinajero.app.util.Utileria;
 
 @Controller
 public class HomeController 
 {
+
+	
 	@Autowired
 	private IPeliculasService servicePeliculas; /*al arrancar nuestra aplicacion , spring va inyectar una instancia de clase de servicio, en esta variable */
 	
@@ -46,6 +49,8 @@ public class HomeController
 		model.addAttribute("peliculas", peliculas);
 		model.addAttribute("fechas", listaFechas);
 		
+
+		
 		System.out.println("Buscando todas las peliculas en exhibicion para la fecha: " + fecha);
 		return "home";
 	}
@@ -68,6 +73,8 @@ public class HomeController
 		model.addAttribute("fechaBusqueda", dateFormat.format(new Date()));
 		model.addAttribute("peliculas", peliculas);
 		model.addAttribute("fechas", listaFechas);
+		
+		
 		
 		return "home";
 		

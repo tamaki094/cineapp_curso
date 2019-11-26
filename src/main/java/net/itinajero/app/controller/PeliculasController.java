@@ -60,7 +60,7 @@ public class PeliculasController
 	 * @param request
 	 * @return
 	 */
-	@PostMapping("/save")
+	@PostMapping("/save")	
 	public String guardar(Pelicula pelicula, BindingResult result, RedirectAttributes attributes,
 							@RequestParam("archivoImagen") MultipartFile multipart, HttpServletRequest request) //param4: se pone el nombre del input file que suibira el archivo (representa este parametro un archivo Binario | param5: devuelve la ruta absoluta dle directorio donde se va guardar el archivo
 	{
