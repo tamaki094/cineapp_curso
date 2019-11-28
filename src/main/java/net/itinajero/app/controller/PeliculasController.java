@@ -19,6 +19,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,8 +46,8 @@ public class PeliculasController
 		return "peliculas/listPeliculas";
 	}
 	
-	@GetMapping("/create")
-	public String crear()
+	@GetMapping("/create") //es el metodo que renderiza el formulario para crear una nueva pelicula, por lo tanto debemos pasar como parametro al modelo un objeto de tipo Pelicula
+	public String crear(@ModelAttribute Pelicula pelicula)
 	{
 		return "peliculas/formPelicula";
 	}
@@ -61,7 +62,7 @@ public class PeliculasController
 	 * @return
 	 */
 	@PostMapping("/save")	
-	public String guardar(Pelicula pelicula, BindingResult result, RedirectAttributes attributes,
+	public String guardar(@ModelAttribute Pelicula pelicula, BindingResult result, RedirectAttributes attributes,
 							@RequestParam("archivoImagen") MultipartFile multipart, HttpServletRequest request) //param4: se pone el nombre del input file que suibira el archivo (representa este parametro un archivo Binario | param5: devuelve la ruta absoluta dle directorio donde se va guardar el archivo
 	{
 		

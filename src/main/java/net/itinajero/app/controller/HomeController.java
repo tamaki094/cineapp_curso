@@ -16,13 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.itinajero.app.model.Pelicula;
-
+import net.itinajero.app.service.IBannersService;
 import net.itinajero.app.service.IPeliculasService;
 import net.itinajero.app.util.Utileria;
 
 @Controller
 public class HomeController 
 {
+	@Autowired
+	private IBannersService serviceBanners;
 
 	
 	@Autowired
@@ -49,6 +51,7 @@ public class HomeController
 		model.addAttribute("peliculas", peliculas);
 		model.addAttribute("fechas", listaFechas);
 		
+		model.addAttribute("banners", serviceBanners.buscarTodos());
 
 		
 		System.out.println("Buscando todas las peliculas en exhibicion para la fecha: " + fecha);
@@ -74,7 +77,7 @@ public class HomeController
 		model.addAttribute("peliculas", peliculas);
 		model.addAttribute("fechas", listaFechas);
 		
-		
+		model.addAttribute("banners", serviceBanners.buscarTodos());
 		
 		return "home";
 		
