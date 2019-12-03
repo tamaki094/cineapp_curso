@@ -31,7 +31,7 @@
     <div class="container theme-showcase" role="main">
 
 	<div class="page-header">
-|		<h3 class="blog-title"><span class="label label-success">Datos de la Pelicula</span></h3>
+		<h3 class="blog-title"><span class="label label-success">Datos de la Pelicula</span></h3>
 	</div>
 	
 	<spring:hasBindErrors name="pelicula"> <!-- pasando nombre del objeto de modelo Pelicula -->
@@ -45,7 +45,13 @@
 	</div>
 	</spring:hasBindErrors>
 		
+	${pelicula}
       <form:form action="${urlForm}" method="post" enctype="multipart/form-data" modelAttribute="pelicula">
+      	<div class="row">
+	         <div class="col-sm-3">
+	         	<img class="img-rounded" src="${urlPublic}/img/${pelicula.imagen}" title="Imagen Actual de la Pelicula" >
+	         </div>
+        </div>
         <div class="row">
           <div class="col-sm-3">
             <div class="form-group">
@@ -71,7 +77,10 @@
           </div>
           <div class="col-sm-3">
             <div class="form-group">
-              <label for="genero" class="control-label">Genero</label>              
+              <label for="genero" class="control-label">Genero</label>  
+              <form:hidden path="id" />   
+              <form:select id="genero" path="genero" class="form-control" items="${generos}" />       
+              <%--  
               <form:select id="genero" path="genero" class="form-control">
                 <form:option value="Accion">Accion</form:option>
                 <form:option value="Aventura">Aventura </form:option>
@@ -82,7 +91,8 @@
                 <form:option value="Infantil">Infantil</form:option>                  
                 <form:option value="Accion y Aventura">Accion y Aventura</form:option>                  
                 <form:option value="Romantica">Romantica</form:option>                  
-              </form:select>             
+              </form:select>
+              --%>     
             </div> 
           </div>         
         </div>
@@ -107,13 +117,14 @@
           <div class="col-sm-3">
             <div class="form-group">
               <label for="imagen">Imagen</label>
+              <form:hidden path="imagen"/>
               <input type="file" id="archivoImagen" name="archivoImagen" />
               <p class="help-block">Imagen de la pelicula</p>
             </div> 
           </div>
         </div>
 
-        <!--  
+         
         <div class="page-header">
             <h3 class="blog-title"><span class="label label-success">Detalles</span></h3>
         </div>
@@ -122,20 +133,20 @@
           <div class="col-sm-3">
             <div class="form-group">
               <label for="director">Director</label>
-              <input type="text" class="form-control" name="director" id="director" required="required" />
+              <form:input type="text" class="form-control" path="detalle.director" id="director" required="required" />
             </div>  
           </div>
           <div class="col-sm-3">
             <div class="form-group">
               <label for="actores">Actores</label>
-              <input type="text" class="form-control" name="actores" id="actores" required="required" />
+              <form:input type="text" class="form-control" path="detalle.actores" id="actores" required="required" />
             </div>  
           </div>
 
           <div class="col-sm-6">
             <div class="form-group">
               <label for="trailer">URL del Trailer (Youtube)</label>
-              <input type="text" class="form-control" name="trailer" id="trailer" placeholder="URL completa del video de YOUTUBE" required="required" />
+              <form:input type="text" class="form-control" path="detalle.trailer" id="trailer" placeholder="URL completa del video de YOUTUBE" required="required" />
             </div>  
           </div> 
         </div> 
@@ -144,11 +155,11 @@
           <div class="col-sm-6">
             <div class="form-group">
               <label for="sinopsis">Sinopsis</label>
-              <textarea class="form-control" rows="5" name="sinopsis" id="sinopsis"></textarea>
+              <form:textarea class="form-control" rows="5" path="detalle.sinopsis" id="sinopsis"></form:textarea>
             </div> 
           </div> 
         </div>
-        -->
+        
         
         <button type="submit" class="btn btn-danger" >Guardar</button>
       </form:form> 

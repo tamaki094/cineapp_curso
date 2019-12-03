@@ -47,8 +47,9 @@ public class PeliculasController
 	}
 	
 	@GetMapping("/create") //es el metodo que renderiza el formulario para crear una nueva pelicula, por lo tanto debemos pasar como parametro al modelo un objeto de tipo Pelicula
-	public String crear(@ModelAttribute Pelicula pelicula)
+	public String crear(@ModelAttribute Pelicula pelicula, Model model)
 	{
+		model.addAttribute("generos", servicePeliculas.buscarGeneros());
 		return "peliculas/formPelicula";
 	}
 	

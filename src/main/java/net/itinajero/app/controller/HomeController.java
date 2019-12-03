@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.itinajero.app.model.Pelicula;
+import net.itinajero.app.model.Detalle;
+
 import net.itinajero.app.service.IBannersService;
 import net.itinajero.app.service.IPeliculasService;
 import net.itinajero.app.util.Utileria;

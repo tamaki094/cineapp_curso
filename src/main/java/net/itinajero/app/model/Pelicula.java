@@ -2,16 +2,24 @@ package net.itinajero.app.model;
 
 import java.util.Date;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
+
 public class Pelicula 
 {
 	private int id;
 	private String titulo;
-	private int duracion;
-	private String clasificacion;
+	private int duracion = 100; //gracias al @ModelAttribute , es posible poner valores por Default en los input pues esta enlazado con el Modelo Pelicula
+	private String clasificacion = "B";
 	private String genero;
 	private String imagen = "cinema.png";
 	private Date fechaEstreno;
 	private String estatus = "Activa";
+	private Detalle detalle;
+	
+	
+	public Pelicula() {
+		System.out.println("Constructor Pelicula");
+	}
 	public int getId() {
 		return id;
 	}
@@ -60,18 +68,19 @@ public class Pelicula
 	public void setEstatus(String estatus) {
 		this.estatus = estatus;
 	}
+	public Detalle getDetalle() {
+		return detalle;
+	}
+	public void setDetalle(Detalle detalle) {
+		this.detalle = detalle;
+	}
 	
 	
 	@Override
 	public String toString() {
 		return "Pelicula [id=" + id + ", titulo=" + titulo + ", duracion=" + duracion + ", clasificacion="
 				+ clasificacion + ", genero=" + genero + ", imagen=" + imagen + ", fechaEstreno=" + fechaEstreno
-				+ ", estatus=" + estatus + "]";
+				+ ", estatus=" + estatus + ", detalle=" + detalle + "]";
 	}
-	
-	
-	
-	
-	
 	
 }
