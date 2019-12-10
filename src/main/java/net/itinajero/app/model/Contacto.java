@@ -1,6 +1,7 @@
 package net.itinajero.app.model;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Contacto {
 	
@@ -9,26 +10,23 @@ public class Contacto {
 	private String email;
 	private int rating;
 	private String[] generos;
-	private String[] notificaciones;
+	private List<String> notificaciones;
 	private String	comentarios;
-	
 	
 	
 	@Override
 	public String toString() {
 		return "Contacto [id=" + id + ", nombre=" + nombre + ", email=" + email + ", rating=" + rating + ", generos="
-				+ Arrays.toString(generos) + ", notificaciones=" + Arrays.toString(notificaciones) + ", comentarios="
-				+ comentarios + "]";
+				+ Arrays.toString(generos) + ", notificaciones=" + notificaciones + ", comentarios=" + comentarios
+				+ "]";
 	}
-	
-	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNombre() {
+   	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
@@ -49,15 +47,18 @@ public class Contacto {
 	public String[] getGeneros() {
 		return generos;
 	}
+	
+	public List<String> getNotificaciones() {
+		return notificaciones;
+	}
+
+	public void setNotificaciones(List<String> notificaciones) {
+		this.notificaciones = notificaciones;
+	}
 	public void setGeneros(String[] generos) {
 		this.generos = generos;
 	}
-	public String[] getNotificaciones() {
-		return notificaciones;
-	}
-	public void setNotificaciones(String[] notificaciones) {
-		this.notificaciones = notificaciones;
-	}
+	
 	public String getComentarios() {
 		return comentarios;
 	}

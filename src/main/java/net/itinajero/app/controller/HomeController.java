@@ -81,8 +81,9 @@ public class HomeController
 		
 		model.addAttribute("banners", serviceBanners.buscarTodos());
 		
-		return "home";
 		
+		
+		return "home";
 	}
 	
 	
