@@ -2,8 +2,18 @@ package net.itinajero.app.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
+import javax.persistence.Id;
+
+@Entity
+@Table(name="noticias") //nombre en la base de datos
 public class Noticia 
 {
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //Indicamos que el valor de la llave primaria sera AUTO-INCREMENT. GenerationType.IDENTITY es para MySQL
 	private int Id;
 	private String titulo;
 	private Date fecha;
