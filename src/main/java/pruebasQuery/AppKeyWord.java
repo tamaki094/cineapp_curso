@@ -26,12 +26,13 @@ public class AppKeyWord {
 //			List<Noticia> lista = repo.findByEstatusAndFecha("Activa", format.parse("2019-12-11"));
 //			List<Noticia> lista = repo.findByEstatusOrFecha("Activa", format.parse("2019-12-11"));
 //			List<Noticia> lista = repo.findByFechaBetween(format.parse("2019-12-09"), format.parse("2019-12-11"));
-			List<Noticia> lista = repo.findByFechaBetween(format.parse("2019-12-09"), format.parse("2019-12-11"));
+			List<Noticia> lista = repo.findByFechaBetween(format.parse("2019-11-01"), format.parse("2019-12-30"));
 			
 			for (Noticia noticia : lista) 
 			{	
 				System.out.println(noticia);
 			}
+			
 
 		} 
 		catch (ParseException e) 

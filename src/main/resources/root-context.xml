@@ -13,9 +13,9 @@
 			http://www.springframework.org/schema/tx 
 			http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<context:component-scan base-package="net.itinajero.app.service" /> <!-- Configuracion donde se escanearan los componentes de servicio:al arrancar aplicaicon sprint , escaneara clases dentro del paquete, y a las clases marcadas con @Service, creara una instancia -->
+	<context:component-scan base-package="net.itinajero.app.service" />
 	
-	<jpa:repositories base-package="net.itinajero.app.repository" /> <!--  Confogiracion dodne estamos indicando donde vamos almacenar repositorios -->
+	<jpa:repositories base-package="net.itinajero.app.repository" />
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />

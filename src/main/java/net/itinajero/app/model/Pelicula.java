@@ -1,25 +1,55 @@
 package net.itinajero.app.model;
 
 import java.util.Date;
+import java.util.List;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-public class Pelicula 
-{
+@Entity
+@Table(name="Peliculas")
+public class Pelicula {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY) // auto_increment MySQL
 	private int id;
 	private String titulo;
-	private int duracion = 100; //gracias al @ModelAttribute , es posible poner valores por Default en los input pues esta enlazado con el Modelo Pelicula
-	private String clasificacion = "B";
+	private int duracion;
+	private String clasificacion;
 	private String genero;
-	private String imagen = "cinema.png";
-	private Date fechaEstreno;
-	private String estatus = "Activa";
+	private String imagen = "cinema.png"; // imagen por default	
+	private Date fechaEstreno;	
+	private String estatus="Activa";
+	
+	//@Transient // ignorar este atributo durante la persistencia
+	@OneToOne
+	@JoinColumn(name="idDetalle")
 	private Detalle detalle;
+	
+	@OneToMany(mappedBy="pelicula",fetch=FetchType.EAGER)
+	private List<Horario> horarios;
 	
 	
 	public Pelicula() {
-		System.out.println("Constructor Pelicula");
+		//System.out.println("Constructor Pelicula");
 	}
+	
+	public Detalle getDetalle() {
+		return detalle;
+	}
+	
+	public void setDetalle(Detalle detalle) {
+		this.detalle = detalle;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -68,14 +98,16 @@ public class Pelicula
 	public void setEstatus(String estatus) {
 		this.estatus = estatus;
 	}
-	public Detalle getDetalle() {
-		return detalle;
+
+		
+	public List<Horario> getHorarios() {
+		return horarios;
 	}
-	public void setDetalle(Detalle detalle) {
-		this.detalle = detalle;
+
+	public void setHorarios(List<Horario> horarios) {
+		this.horarios = horarios;
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return "Pelicula [id=" + id + ", titulo=" + titulo + ", duracion=" + duracion + ", clasificacion="
