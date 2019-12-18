@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.itinajero.app.model.Pelicula;
+import net.itinajero.app.service.IDetallesService;
 import net.itinajero.app.service.IPeliculasService;
 import net.itinajero.app.util.Utileria;
 
@@ -36,6 +37,9 @@ public class PeliculasController
 { 
 	@Autowired
 	private IPeliculasService servicePeliculas;
+	
+	@Autowired
+	private IDetallesService serviceDetalles;
 	
 	@GetMapping("/index")
 	public String mostrarIndex(Model model) 
@@ -66,6 +70,8 @@ public class PeliculasController
 	public String guardar(@ModelAttribute Pelicula pelicula, BindingResult result, RedirectAttributes attributes,
 							@RequestParam("archivoImagen") MultipartFile multipart, HttpServletRequest request) //param4: se pone el nombre del input file que suibira el archivo (representa este parametro un archivo Binario | param5: devuelve la ruta absoluta dle directorio donde se va guardar el archivo
 	{
+		System.out.println("Guardando...");
+		System.out.println(pelicula);
 		
 		if(result.hasErrors())
 		{
@@ -87,11 +93,12 @@ public class PeliculasController
 			}
 			System.out.println("Recibiendo objeto pelicula: " + pelicula);
 			
-			System.out.println("Elementos en la lista antes de la insercion:  " +  servicePeliculas.buscarTodas().size());
+//			System.out.println("Elementos en la lista antes de la insercion:  " +  servicePeliculas.buscarTodas().size());
 			
+			serviceDetalles.insertar(pelicula.getDetalle());
 			servicePeliculas.insertar(pelicula);
 	
-			System.out.println("Elementos en la lista despues de la insercion:  " +  servicePeliculas.buscarTodas().size());
+//			System.out.println("Elementos en la lista despues de la insercion:  " +  servicePeliculas.buscarTodas().size());
 			
 			attributes.addFlashAttribute("mensaje", "El registro fue guardado");
 			
