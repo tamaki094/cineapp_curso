@@ -59,4 +59,10 @@ public class PeliculasServiceJPA implements IPeliculasService{
 		return generos;
 	}
 
+	@Override
+	public void eliminar(int idPelicula) 
+	{
+		peliculasRepo.deleteById(idPelicula);		
+	}
+
 }

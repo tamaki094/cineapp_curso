@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+ <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -15,6 +15,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Listado de Peliculas</title>
+    <spring:url value="/resources" var="urlPublic" />
+    <spring:url value="/peliculas/create" var="urlCreate" />
+    <spring:url value="/peliculas/edit" var="urlEdit" />
+    <spring:url value="/peliculas/delete" var="urlDelete" />
     
     <c:if test="${mensaje != null }">
     	<div class="alert alert-success" role="alert">${mensaje }</div>
@@ -85,8 +89,8 @@
 	                	</c:otherwise>
 	                </c:choose>	                
 	                <td>
-	                    <a  href="edit?id_movie=${pelicula.id }"  class="btn btn-success btn-sm" role="button" title="Edit" ><span class="glyphicon glyphicon-pencil"></span></a>
-	                    <a  href="delete?id_movie=${pelicula.id }" class="btn btn-danger btn-sm" role="button" title="Eliminar" ><span class="glyphicon glyphicon-trash"></span></a>
+	                    <a href="${urlEdit}/${pelicula.id}"  class="btn btn-success btn-sm" role="button" title="Edit" ><span class="glyphicon glyphicon-pencil"></span></a>
+	                    <a href="${urlDelete}/${pelicula.id}" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar" ><span class="glyphicon glyphicon-trash"></span></a>
 	                </td>
 	            </tr> 
             </c:forEach>       

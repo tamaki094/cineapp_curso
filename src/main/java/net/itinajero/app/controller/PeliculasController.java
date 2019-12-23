@@ -20,6 +20,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +54,7 @@ public class PeliculasController
 	@GetMapping("/create") //es el metodo que renderiza el formulario para crear una nueva pelicula, por lo tanto debemos pasar como parametro al modelo un objeto de tipo Pelicula
 	public String crear(@ModelAttribute Pelicula pelicula, Model model)
 	{
-		model.addAttribute("generos", servicePeliculas.buscarGeneros());
+//		model.addAttribute("generos", servicePeliculas.buscarGeneros());
 		return "peliculas/formPelicula";
 	}
 	
@@ -107,7 +108,31 @@ public class PeliculasController
 		}
 	}
 	
+	@GetMapping(value="/edit/{id}")
+	public String editar(@PathVariable("id") int idPelicula, Model model)
+	{
+		Pelicula pelicula = servicePeliculas.buscarPorId(idPelicula);
+		model.addAttribute("pelicula", pelicula);
+//		model.addAttribute("generos", servicePeliculas.buscarGeneros());
+		
+		return "peliculas/formPelicula";
+	}
 	
+	@GetMapping(value="/delete/{id}")
+	public String eliminar(@PathVariable("id") int idPelicula, RedirectAttributes attributes)
+	{
+		Pelicula pelicula = servicePeliculas.buscarPorId(idPelicula);
+		servicePeliculas.eliminar(idPelicula);
+		serviceDetalles.eliminar(pelicula.getDetalle().getId());
+		attributes.addFlashAttribute("mensaje", "La pelicula fue eliminada!");
+		return "redirect:/peliculas/index";
+	}
+	
+	@ModelAttribute("generos") //agregando atributo al Modelo, cuyo m etodo estara disponible a todos los metodos en este controlador
+	public List<String> getGeneros()
+	{
+		return servicePeliculas.buscarGeneros();
+	}
 	
 
 	@InitBinder

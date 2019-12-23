@@ -49,7 +49,7 @@
       <form:form action="${urlForm}" method="post" enctype="multipart/form-data" modelAttribute="pelicula">
       	<div class="row">
 	         <div class="col-sm-3">
-	         	<img class="img-rounded" src="${urlPublic}/img/${pelicula.imagen}" title="Imagen Actual de la Pelicula" >
+	         	<img class="img-rounded" src="${urlPublic}/img/${pelicula.imagen}" title="Imagen Actual de la Pelicula" width="180">
 	         </div>
         </div>
         <div class="row">
@@ -78,7 +78,8 @@
           <div class="col-sm-3">
             <div class="form-group">
               <label for="genero" class="control-label">Genero</label>  
-              <form:hidden path="id" />   
+              <form:hidden path="id" />  
+              <form:hidden path="detalle.id" />   
               <form:select id="genero" path="genero" class="form-control" items="${generos}" />       
               <%--  
               <form:select id="genero" path="genero" class="form-control">

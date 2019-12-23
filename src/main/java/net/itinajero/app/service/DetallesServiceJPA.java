@@ -18,4 +18,11 @@ public class DetallesServiceJPA implements IDetallesService
 		detallesRepo.save(detalle);	
 	}
 
+	@Override
+	public void eliminar(int idPelicula) 
+	{
+		detallesRepo.deleteById(idPelicula);
+		
+	}
+
 }
