@@ -8,8 +8,11 @@ import java.util.List;
 
 import org.apache.taglibs.standard.extra.spath.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import net.itinajero.app.model.Pelicula;
 import net.itinajero.app.model.Detalle;
-
+import net.itinajero.app.model.Horario;
 import net.itinajero.app.service.IBannersService;
+import net.itinajero.app.service.IHorariosService;
 import net.itinajero.app.service.IPeliculasService;
 import net.itinajero.app.util.Utileria;
 
@@ -28,9 +32,12 @@ public class HomeController
 	@Autowired
 	private IBannersService serviceBanners;
 
-	
 	@Autowired
 	private IPeliculasService servicePeliculas; /*al arrancar nuestra aplicacion , spring va inyectar una instancia de clase de servicio, en esta variable */
+	
+	@Autowired
+	private IHorariosService serviceHorarios;
+	
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
@@ -84,8 +91,47 @@ public class HomeController
 		
 		
 		return "home";
+	}	
+	
+//	@RequestMapping(value="/detail/{id}/{fecha}", method=RequestMethod.GET)
+//	public String mostrarDetalle(Model model, @PathVariable("id") int idPelicula, @PathVariable("fecha") String fecha)
+	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	public String mostrarDetalle(Model model, @RequestParam("id_movie") int idPelicula, @RequestParam("fecha_movie") Date fecha)
+	{
+		List<Horario> horarios = serviceHorarios.buscarPorIdPelicula(idPelicula, fecha);
+		
+		System.out.println("idPelicula: " + idPelicula);
+  
+		
+		System.out.println("Horarios encontrados: " + horarios.size());
+		
+		for (Horario horario : horarios) {
+			System.out.println(horario);
+		}
+		
+		model.addAttribute("horarios", horarios);
+		model.addAttribute("fechaBusqueda", dateFormat.format(fecha));
+		model.addAttribute("pelicula", servicePeliculas.buscarPorId(idPelicula));
+		
+		//Pendiente: 	Buscar en la base de datos los horarios
+				
+//		String tituloPelicula = "Rapidos y furiosos";
+//		int duracion = 136;
+//		double precioEntrada = 50;
+//		
+//		model.addAttribute("titulo", tituloPelicula);
+//		model.addAttribute("dracion", duracion);
+//		model.addAttribute("precio", precioEntrada);
+		
+		return "detalle"; //crear archivo JSP con este nombre
 	}
 	
+	@InitBinder
+	public void initBinder(WebDataBinder binder)
+	{
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false)); //para todas las propiedades de tipo Date, cuando se haga el DataBinding vas a crear un nuebo objeto de tipo [CustomDateEditor] que sirve para registrar le foormtato que sera utilizado para dar formato a las fechas que se usan unicamente en estre controlador
+	}
 	
 	
 //	private List<Pelicula> getLista()
@@ -163,32 +209,5 @@ public class HomeController
 //		
 //		
 //	}
-	
-	
-	
-	
-//	@RequestMapping(value="/detail/{id}/{fecha}", method=RequestMethod.GET)
-//	public String mostrarDetalle(Model model, @PathVariable("id") int idPelicula, @PathVariable("fecha") String fecha)
-	@RequestMapping(value="/detail", method=RequestMethod.GET)
-	public String mostrarDetalle(Model model, @RequestParam("id_movie") int idPelicula, @RequestParam("fecha_movie") String fecha)
-	{
-		System.out.println("Buscando horarios para la pelicula: " + idPelicula);
-		System.out.println("Para la fecha: " + fecha);
-		
-		model.addAttribute("pelicula", servicePeliculas.buscarPorId(idPelicula));
-		
-		//Pendiente: 	Buscar en la base de datos los horarios
-			
-		
-//		String tituloPelicula = "Rapidos y furiosos";
-//		int duracion = 136;
-//		double precioEntrada = 50;
-//		
-//		model.addAttribute("titulo", tituloPelicula);
-//		model.addAttribute("dracion", duracion);
-//		model.addAttribute("precio", precioEntrada);
-		
-		return "detalle"; //crear archivo JSP con este nombre
-	}
 	
 }
